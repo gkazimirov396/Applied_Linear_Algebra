@@ -42,8 +42,7 @@ def create_canvas(objects, shape=(500, 500, 3)):
 
 
 object1 = np.array([[50, 450], [50, 350], [150, 450], [50, 450]])  # Triangle
-object2 = np.array([[0, 0], [1, 0.2], [0.4, 1], [0.5, 0.4], [0, 0.8], [-0.5, 0.4], [-0.4, 1], [-1, 0.2], [0, 0]]) # Batman
-
+object2 = np.array([[150, 150], [100, 20], [40, 100], [50, 40], [150, 80], [-50, 40], [-40, 100], [-100, 20], [150, 150]]) # Batman
 
 # Create canvas and plot original objects
 canvas = create_canvas([(object1, (255,255,255)), (object2, (255,255,255))])
