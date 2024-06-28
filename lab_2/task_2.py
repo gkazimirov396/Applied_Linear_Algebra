@@ -36,20 +36,6 @@ def plot_cumulative_variance(cumulative_variance, num_components):
     plt.grid(True)
     plt.show()
 
-def plot_reconstructed_images(image_bw, n_components_list):
-    plt.figure(figsize=(15, 10))
-    for i, n_components in enumerate(n_components_list, start=1):
-        pca = PCA(n_components)
-        transformed_data = pca.fit_transform(image_bw)
-        reconstructed_image = reconstruct_image(pca, transformed_data)
-
-        plt.subplot(2, 3, i)
-        plt.title(f"Components: {n_components}")
-        plt.imshow(reconstructed_image, cmap='gray')
-        plt.axis('on')  # Ensure the tick labels are displayed
-    plt.tight_layout()
-    plt.show()
-
 image_path = os.path.join(os.path.dirname(__file__), 'images/test_image.jpg')
 
 image_raw = imread(image_path)
@@ -77,13 +63,12 @@ plt.imshow(reconstructed_image_95, cmap='gray')
 plt.title(f'Reconstructed Image ({num_components} components, {image_bw.shape[0]}x{image_bw.shape[1]})')
 plt.axis('on')
 plt.show()
-print("Displayed reconstructed image using the number of components for 95% variance (1 point)")
+print("Displayed reconstructed image using the number of components for 95% variance")
 
 n_components_list = [5, 15, 25, 75, 100, 170]
 
 for n_components in n_components_list:
-    pca = PCA(n_components)
-    transformed_data = pca.fit_transform(image_bw)
+    pca, transformed_data = apply_pca(image_bw, n_components)
     reconstructed_image = reconstruct_image(pca, transformed_data)
 
     plot_images(image_bw, reconstructed_image, f'Reconstructed Image ({n_components} components)')
