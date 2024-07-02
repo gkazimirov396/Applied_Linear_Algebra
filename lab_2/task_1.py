@@ -17,7 +17,7 @@ def check_eigen(matrix, eigenvalues, eigenvectors):
     return True
 
 # Example 
-A = np.array([[7, -2], [1,  -1]])
+A = np.array([[3, 2], [2,  6]])
 
 eigenvalues, eigenvectors = eigenvalues_and_eigenvectors(A)
 
