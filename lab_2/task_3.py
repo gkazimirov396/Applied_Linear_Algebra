@@ -21,7 +21,7 @@ def decrypt_message(encrypted_vector, key_matrix: np.ndarray):
     return decrypted_message
 
 
-message = 'Hello, World!'
+message = 'Hello, World!**##$$@@^^4hdhhe383838'
 key_matrix = np.random.randint(0, 256, (len(message), len(message)))
 
 encrypted_vector = encrypt_message(message, key_matrix)
