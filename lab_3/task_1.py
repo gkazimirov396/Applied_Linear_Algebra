@@ -1,37 +1,35 @@
 import numpy as np
 
-def my_svd(A):
+def my_svd(A: np.ndarray):
     AtA = np.dot(A.T, A)
     AAt = np.dot(A, A.T)
-    
-    eigenvalues_V, V = np.linalg.eig(AtA)
-    eigenvalues_U, U = np.linalg.eig(AAt)
-    
-    sorted_indices_V = np.argsort(-eigenvalues_V)
-    eigenvalues_V = eigenvalues_V[sorted_indices_V]
-    V = V[:, sorted_indices_V]
-    
-    sorted_indices_U = np.argsort(-eigenvalues_U)
-    eigenvalues_U = eigenvalues_U[sorted_indices_U]
-    U = U[:, sorted_indices_U]
-    
-    sigma = np.sqrt(eigenvalues_V)
-    
-    m, n = A.shape
-    Sigma = np.zeros((m, n))
-    min_dim = min(m, n)
-    Sigma[:min_dim, :min_dim] = np.diag(sigma)
-    
-    return U, Sigma, V.T
 
-A = np.array([[1, 2], [3, 4], [5, 6]])
-U, Sigma, VT = my_svd(A)
+    eigenvalues_AAt, eigenvectors_AAt = np.linalg.eig(AAt)
+    U = eigenvectors_AAt[:, np.argsort(eigenvalues_AAt)[::-1]]
 
-print("U:\n", U)
-print("Sigma:\n", Sigma)
-print("V^T:\n", VT)
+    eigenvalues_AtA, eigenvectors_AtA = np.linalg.eig(AtA)
+    V = eigenvectors_AtA[:, np.argsort(eigenvalues_AtA)[::-1]]
 
-A_reconstructed = np.dot(U, np.dot(Sigma, VT))
+    singular_values = np.sqrt(np.maximum(eigenvalues_AtA, 0))
+    Σ = np.zeros(A.shape)
+    Σ[:min(A.shape), :min(A.shape)] = np.diag(singular_values)
 
-print("Reconstructed A:\n", A_reconstructed)
-print("Original A:\n", A)
+    for i in range(len(singular_values)):
+        if singular_values[i] != 0:
+            U[:, i] = np.dot(A, V[:, i]) / singular_values[i]
+        else:
+            U[:, i] = np.zeros(A.shape[0])
+
+    return U, Σ, V.T
+
+A = np.array([[-12.6, 2], [-43.1, -9], [53, 166]])
+U, Σ, Vt = my_svd(A)
+
+print("U: \n", U)
+print("Σ: \n", Σ)
+print("V^T: \n", Vt)
+
+A_reconstructed = np.dot(U, np.dot(Σ, Vt))
+
+print("Reconstructed matrix: \n", A_reconstructed)
+print("Original matrix: \n", A)
