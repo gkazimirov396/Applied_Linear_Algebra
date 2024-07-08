@@ -22,14 +22,14 @@ def my_svd(A: np.ndarray):
 
     return U, Σ, V.T
 
-A = np.array([[-12.6, 2], [-43.1, -9], [53, 166]])
+A = np.array([[-12.6, 2], [-43.1, 0], [53, 166]])
 U, Σ, Vt = my_svd(A)
 
 print("U: \n", U)
 print("Σ: \n", Σ)
 print("V^T: \n", Vt)
 
-A_reconstructed = np.dot(U, np.dot(Σ, Vt))
+A_reconstructed = np.dot(U, np.dot(Σ, Vt)).round(1)
 
 print("Reconstructed matrix: \n", A_reconstructed)
 print("Original matrix: \n", A)
