@@ -4,15 +4,16 @@ def my_svd(A: np.ndarray):
     AtA = np.dot(A.T, A)
     AAt = np.dot(A, A.T)
 
-    eigenvalues_AAt, eigenvectors_AAt = np.linalg.eig(AAt)
-    U = eigenvectors_AAt[:, np.argsort(eigenvalues_AAt)[::-1]]
-
     eigenvalues_AtA, eigenvectors_AtA = np.linalg.eig(AtA)
-    V = eigenvectors_AtA[:, np.argsort(eigenvalues_AtA)[::-1]]
 
-    singular_values = np.sqrt(np.maximum(eigenvalues_AtA, 0))
+    sorted_eigenvalues = np.sort(eigenvalues_AtA)[::-1][:min(A.shape)]
+    singular_values = np.sqrt(np.maximum(sorted_eigenvalues, 0))
+
     Σ = np.zeros(A.shape)
     Σ[:min(A.shape), :min(A.shape)] = np.diag(singular_values)
+
+    U = np.zeros((A.shape[0], A.shape[0]))
+    V = eigenvectors_AtA[:, np.argsort(eigenvalues_AtA)[::-1]]
 
     for i in range(len(singular_values)):
         if singular_values[i] != 0:
@@ -22,7 +23,9 @@ def my_svd(A: np.ndarray):
 
     return U, Σ, V.T
 
-A = np.array([[-12.6, 2], [-43.1, 0], [53, 166]])
+A = np.array([[-12.6, 2], [-43.1, 7], [53, 166]])
+#A= np.array([[1, 2, 3], [4, 5, 6]])
+#A = np.array([[2, 0], [12, 33]])
 U, Σ, Vt = my_svd(A)
 
 print("U: \n", U)
