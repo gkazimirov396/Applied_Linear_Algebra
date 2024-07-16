@@ -37,7 +37,7 @@ ax.scatter(U_plot[:, 0], U_plot[:, 1], U_plot[:, 2], c='b', marker='o', s=20)
 plt.title('Users')
 plt.show()
 
-V_plot = Vt.T[:20]
+V_plot = Vt[:20]
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
